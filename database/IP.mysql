@@ -1,0 +1,54 @@
+CREATE DATABASE OnlineBankingDB;
+USE OnlineBankingDB;
+CREATE TABLE Account (
+    account_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    account_number VARCHAR(20) NOT NULL UNIQUE,
+    account_holder_name VARCHAR(100) NOT NULL,
+    balance DOUBLE NOT NULL,
+    account_type VARCHAR(20) NOT NULL,
+    created_date DATETIME NOT NULL
+);
+CREATE TABLE Transaction (
+    transaction_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    account_id BIGINT NOT NULL,
+    amount DOUBLE NOT NULL,
+    transaction_type VARCHAR(20) NOT NULL,
+    description VARCHAR(255),
+    recipient_account_id BIGINT,
+    transaction_date DATETIME NOT NULL,
+    FOREIGN KEY (account_id) REFERENCES Account(account_id)
+);
+
+
+
+-- Insert Sample Accounts
+INSERT INTO Account (account_number, account_holder_name, balance, account_type, created_date) VALUES
+('123456', 'Vichu', 5000, 'Savings', NOW()),
+('654321', 'Vishnu', 3000, 'Checking', NOW()),
+('ACC1003', 'Sandheesh', 1000.00, 'Savings', NOW());
+
+-- Insert Sample Transactions
+INSERT INTO Transaction (account_id, amount, transaction_type, description, recipient_account_id, transaction_date) VALUES
+(1, 500.00, 'DEPOSIT', 'Salary Deposit', NULL, NOW()),
+(1, 200.00, 'WITHDRAW', 'ATM Withdrawal', NULL, NOW()),
+(2, 300.00, 'TRANSFER', 'Rent Payment', 3, NOW()),
+(3, 300.00, 'DEPOSIT', 'Received from Jane Smith', NULL, NOW());
+
+select * from Account;	
+select * from Transaction;	
+
+DELETE FROM transaction WHERE account_id = 16;
+DELETE FROM account WHERE account_id = 12;
+
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL
+);
+INSERT INTO users (username, password, role)
+VALUES ('admin', 'admin123', 'ADMIN');
+INSERT INTO users (username, password, role)
+VALUES 
+('user1', 'user123', 'USER');
+select * from users;
